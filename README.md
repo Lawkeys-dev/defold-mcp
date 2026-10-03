@@ -28,6 +28,6 @@ Dependencies (`mcp<2`) are declared in the script header and installed by `uv`. 
 
 ## Security
 
-`defold_eval` runs arbitrary Lua inside the editor. It can change or delete project files and run commands (`editor.execute`). The editor only listens locally, and `/eval`, `/bob` and the commands require the bearer token, which only the local user can read. Read-only routes such as `/console` and `/openapi.json` answer without a token.
+`defold_eval` runs arbitrary Lua inside the editor. It can change or delete project files and run commands (`editor.execute`). The editor only listens locally, and `/eval`, `/bob` and the commands require the bearer token. The editor writes `.internal/editor.token` world-readable (`rw-r--r--` on 1.13.2), so anyone who can read the project folder can use it. Read-only routes such as `/console` and `/openapi.json` answer without a token.
 
 Routes added by editor scripts (`get_http_server_routes`) are not token-protected (checked on 1.13.2). Do not add a Lua eval route of your own: any local process could call it. This server only uses the built-in, token-protected `/eval`.
